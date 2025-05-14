@@ -1,0 +1,26 @@
+# Core dependencies
+numpy==1.24.2
+pandas==1.5.3
+scikit-learn==1.2.2
+librosa==0.10.0
+joblib==1.2.0
+
+# Cloud dependencies
+google-cloud-storage==2.10.0
+google-cloud-firestore==2.11.0
+functions-framework==3.4.0
+
+# Dashboard
+streamlit==1.20.0
+
+# Alerting
+twilio==8.0.0
+sendgrid==6.10.0
+
+# Testing
+pytest==7.4.0
+pytest-cov==4.1.0
+
+# Development
+black==23.3.0
+flake8==6.0.0
