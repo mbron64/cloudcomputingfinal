@@ -13,6 +13,9 @@
 </p>
 
 > A cloud-based IoT system for monitoring beehive health using audio analysis and machine learning.
+> Binghamton University CS552 Cloud Computing Spring 2025
+> Michael Bronikowski, Allen Domingo, and Saif Ali
+
 
 ## 📋 Overview
 
