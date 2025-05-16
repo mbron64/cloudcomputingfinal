@@ -1,17 +1,31 @@
-# Core dependencies
-numpy==1.24.2
-pandas==1.5.3
-scikit-learn==1.2.2
-librosa==0.10.0
-joblib==1.2.0
+# Data processing and analysis
+pandas>=1.5.0
+numpy>=1.20.0
+matplotlib>=3.5.0
+seaborn>=0.12.0
 
-# Cloud dependencies
-google-cloud-storage==2.10.0
-google-cloud-firestore==2.11.0
-functions-framework==3.4.0
+# Model training and evaluation
+scikit-learn>=1.0.0
+joblib>=1.1.0
 
-# Dashboard
-streamlit==1.20.0
+# Data file handling
+openpyxl>=3.0.0
+
+# Dashboard and visualization - explicitly pinned versions to avoid conflicts
+streamlit>=1.10.0
+plotly==5.14.1
+tenacity>=8.1.0  # Required by plotly
+
+# Additional dashboard dependencies
+watchdog>=2.2.0  # For improved file watching in Streamlit
+
+# Audio processing (optional, for future development)
+# librosa>=0.9.0
+
+# Cloud functionality - uncomment for GCP deployment
+google-cloud-storage>=2.0.0
+google-cloud-firestore>=2.7.0
+google-cloud-functions>=1.8.0
 
 # Alerting
 twilio==8.0.0

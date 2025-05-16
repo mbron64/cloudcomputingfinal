@@ -1,53 +1,44 @@
-# IoT Beehive Monitoring System
-
-A cloud-based system for monitoring beehive health using audio analysis and machine learning. This project uses the MSPB dataset to train models that can detect various hive states (normal, swarming, distress) from audio recordings.
-
-## Features
-
-- Audio feature extraction (MFCCs, spectral centroid, zero-crossing rate)
-- Machine learning model for behavior classification
-- Cloud-based processing pipeline using GCP
-- Real-time dashboard for monitoring
-- SMS/Email alerts for critical events
-
-# BuzzHive 🐝
-
-[![Status](https://img.shields.io/badge/Status-Active-green.svg)](https://github.com/username/buzzhive)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/username/buzzhive/LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.8+-yellow.svg)](https://www.python.org/)
-[![Docker](https://img.shields.io/badge/Docker-Enabled-blue.svg)](https://www.docker.com/)
-[![GCP](https://img.shields.io/badge/Cloud-GCP-blue.svg)](https://cloud.google.com/)
-
-> An IoT-powered, cloud-based monitoring solution for beekeepers to remotely track and optimize bee colony health using machine learning and real-time analytics.
+# 🐝 Cloud Based Software Environment for IoT Beehive Monitoring
 
 <p align="center">
-  <img src="https://github.com/username/buzzhive/raw/main/assets/buzzhive-logo.png" alt="BuzzHive Logo" width="300">
+  <img src="docs/beehive-monitoring-logo.png" alt="Beehive Monitoring Logo" width="300">
 </p>
 
-## 🧠 Why BuzzHive?
+<p align="center">
+  <a href="#"><img src="https://img.shields.io/badge/Status-Active-green.svg" alt="Status"></a>
+  <a href="#license"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Python-3.9+-yellow.svg" alt="Python"></a>
+  <a href="#docker-deployment"><img src="https://img.shields.io/badge/Docker-Enabled-blue.svg" alt="Docker"></a>
+  <a href="#google-cloud-platform-deployment"><img src="https://img.shields.io/badge/Cloud-GCP-blue.svg" alt="GCP"></a>
+</p>
 
-Bee populations worldwide are declining at an alarming rate due to habitat loss, climate change, and pesticide use. As crucial pollinators, bees are essential to our ecosystem and food production. BuzzHive empowers beekeepers with technology to create optimal environments for bee colonies to thrive.
+> A cloud-based IoT system for monitoring beehive health using audio analysis and machine learning.
 
-Unlike traditional beekeeping methods that rely on periodic manual inspections, BuzzHive provides:
+## 📋 Overview
 
-- **Continuous monitoring** of hive conditions
-- **Real-time alerts** for abnormal behavior detection
-- **Data-driven insights** for optimizing colony health
-- **Scalable architecture** for monitoring multiple hives across different locations
+This project implements a complete end-to-end IoT solution for beekeepers to monitor the health and behavior of their beehives using audio analysis. The system consists of:
+
+1. **IoT Devices**: Simulated bee monitoring devices that collect audio data
+2. **Cloud Functions**: Process incoming data using machine learning
+3. **Firestore Database**: Store processed events and predictions
+4. **Dashboard**: Real-time monitoring of beehive conditions
 
 ## ✨ Features
 
 - 🔊 **Acoustic monitoring** to detect colony behavior states (normal, swarming, distress)
 - 🌡️ **Environmental tracking** of temperature and humidity conditions
-- ☣️ **Pesticide detection** in the surrounding area
 - 📊 **Interactive dashboard** for real-time hive monitoring
-- 📱 **SMS alerts** for critical events requiring intervention
+- ⚠️ **Automated alerts** for abnormal behavior detection
 - ☁️ **Cloud-based architecture** for reliable, scalable performance
 - 🤖 **Machine learning powered** behavior analysis
 
-## 🏗️ Architecture
+## 🏗️ System Architecture
 
-BuzzHive uses a cloud-native architecture built on Google Cloud Platform:
+<p align="center">
+  <img src="docs/architecture.png" alt="Beehive Monitoring Architecture">
+</p>
+
+The system follows a serverless architecture:
 
 ```
                      ┌────────────────┐
@@ -76,169 +67,388 @@ BuzzHive uses a cloud-native architecture built on Google Cloud Platform:
                     └─────────────────┘
 ```
 
-## 🚀 How It Works
+1. **IoT Devices**: Collect audio data from beehives
+2. **Cloud Storage**: Store raw data
+3. **Cloud Functions**: Process data using ML
+4. **Firestore**: Store processed results
+5. **Dashboard**: Visualize insights
 
-1. **Data Collection**: IoT sensors collect acoustic, temperature, humidity, and pesticide data from beehives
-2. **Data Storage**: WAV files and sensor readings are uploaded to Google Cloud Storage buckets
-3. **ML Processing**: Cloud Functions process the data, extracting features like:
-   - Mel-Frequency Cepstral Coefficients (MFCC)
-   - Spectral centroid
-   - Zero-crossing rate
-4. **Behavior Analysis**: Random Forest model analyzes the data to determine hive state
-5. **Data Storage**: Results are stored in Google Firestore (NoSQL database)
-6. **Alerting**: Anomalies trigger SMS alerts via Twilio
-7. **Visualization**: Cloud Run hosts an interactive dashboard displaying real-time conditions and historical data
+## 🚀 Quick Start
 
-## 💻 Technologies
+### Prerequisites
 
-- **Backend**: Python, Flask
-- **Machine Learning**: Scikit-Learn, Joblib (Random Forest)
-- **Audio Processing**: Librosa
-- **Cloud Infrastructure**: Google Cloud Platform
-  - Cloud Storage
-  - Cloud Functions
-  - Firestore
-  - Cloud Run
-- **Containerization**: Docker
-- **Alerting**: Twilio SMS API
-- **Frontend**: HTML, CSS, JavaScript, Bootstrap
+Before you begin, ensure you have:
+- Python 3.9+ installed
+- pip (Python package manager)
+- git
+- Docker (optional, for containerized deployment)
+- Google Cloud SDK (optional, for cloud deployment)
 
-## 📦 Installation
+### Local Development
 
-```bash
-# Clone the repository
-git clone https://github.com/username/buzzhive.git
-cd buzzhive
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd beehive-monitoring
+   ```
 
-# Install dependencies
-pip install -r requirements.txt
+2. **Create a virtual environment**:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
 
-# Configure environment variables
-export GOOGLE_APPLICATION_CREDENTIALS="path/to/your/credentials.json"
-export TWILIO_ACCOUNT_SID="your_account_sid"
-export TWILIO_AUTH_TOKEN="your_auth_token"
-```
+3. **Run the pipeline with specific components**:
 
+   You can run individual components of the pipeline:
+   ```bash
+   # For data exploration
+   ./run_pipeline.sh --explore
+   
+   # For model training
+   ./run_pipeline.sh --train
+   
+   # For IoT simulation
+   ./run_pipeline.sh --simulate
+   
+   # For the dashboard
+   ./run_pipeline.sh --dashboard
+   ```
+   
+   Or run everything at once:
+   ```bash
+   ./run_pipeline.sh
+   ```
 
-## Project Structure
+4. **Running the dashboard directly**:
+   
+   For the best experience running just the dashboard:
+   ```bash
+   ./run_dashboard.sh
+   ```
+   
+   This ensures the dashboard runs with all required dependencies in the virtual environment.
 
-```
-.
-├── src/
-│   ├── data/           # Data processing and loading
-│   ├── models/         # ML model training and inference
-│   └── utils/          # Utility functions
-├── tests/              # Test files
-├── config/             # Configuration files
-└── requirements.txt    # Project dependencies
-```
+5. **View the dashboard**:
+   
+   Open `http://localhost:8501` in your browser
 
-## Setup
+### Docker Deployment
 
-1. Create a virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-3. Set up GCP credentials:
-- Create a service account and download the JSON key
-- Set the environment variable:
-```bash
-export GOOGLE_APPLICATION_CREDENTIALS="path/to/your/credentials.json"
-```
-
-4. Configure alerting (optional):
-- Set up Twilio account and get credentials
-- Set up SendGrid account and get API key
-- Add credentials to environment variables or config file
-
-## Usage
-
-### Training the Model
+For containerized deployment, use Docker Compose:
 
 ```bash
-python src/models/trainer.py
+docker-compose up
 ```
 
-### Running the Dashboard
+This will start:
+- Dashboard service
+- Data simulation service (for testing)
+
+## 🔧 Troubleshooting
+
+If you encounter issues:
+
+1. **Missing packages**: Make sure you're using the virtual environment
+   ```bash
+   source venv/bin/activate
+   ```
+
+2. **Dashboard errors**: Use the provided script instead of running Streamlit directly
+   ```bash
+   ./run_dashboard.sh
+   ```
+   
+   If you encounter errors with packages, try:
+   ```bash
+   ./install_dashboard_deps.sh
+   ```
+
+3. **Google Cloud errors**: For local development, ensure the dashboard is in demo mode (default). To use cloud features:
+   ```bash
+   gcloud auth application-default login
+   ./run_pipeline.sh --cloud
+   ```
+
+4. **Installation issues**: If you face dependency issues, try:
+   ```bash
+   pip install -r requirements.txt --upgrade
+   ```
+
+## ☁️ Google Cloud Platform Deployment
+
+### Prerequisites
+
+1. Google Cloud Platform account
+2. `gcloud` CLI installed and configured
+3. Project created in GCP with billing enabled
+4. Required APIs enabled:
+   - Cloud Functions
+   - Cloud Storage
+   - Firestore
+   - Cloud Run (for dashboard)
+
+### Deployment Steps
+
+The easiest way to deploy the entire system is using the provided deployment script:
 
 ```bash
-streamlit run src/dashboard/app.py
+# Make the script executable
+chmod +x deploy_cloud.sh
+
+# Deploy the system
+./deploy_cloud.sh
 ```
 
-### Deploying to GCP
+This will:
+1. Configure your GCP project
+2. Create necessary resources (buckets, databases)
+3. Deploy the cloud function
+4. Deploy the dashboard to Cloud Run
+5. Set up permissions
+6. Print the URL of your deployed dashboard
 
-1. Deploy Cloud Function:
+### Testing Cloud Deployment (Dry Run)
+
+You can test the cloud deployment process without creating resources:
+
 ```bash
-gcloud functions deploy process_audio \
-    --runtime python310 \
-    --trigger-resource my-beehive-audio-bucket \
-    --trigger-event google.storage.object.finalize \
-    --source . \
-    --entry-point process_audio
+chmod +x test_cloud_deploy.sh
+./test_cloud_deploy.sh
 ```
 
-2. Deploy Dashboard:
+This simulates the deployment process and validates your configuration.
+
+### Manual Deployment
+
+If you prefer to deploy components individually:
+
+#### 1. Set up environment
+
 ```bash
+# Set your project ID
+export PROJECT_ID="your-project-id"
+export REGION="us-central1"
+export BUCKET_NAME="${PROJECT_ID}-beehive-data"
+```
+
+#### 2. Create Cloud Storage bucket
+
+```bash
+gsutil mb -l $REGION gs://$BUCKET_NAME
+```
+
+#### 3. Deploy Cloud Function
+
+```bash
+# Create a service account
+export SERVICE_ACCOUNT="beehive-processor-sa"
+gcloud iam service-accounts create $SERVICE_ACCOUNT
+
+# Grant permissions
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:${SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com" \
+  --role="roles/storage.objectViewer"
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member="serviceAccount:${SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com" \
+  --role="roles/datastore.user"
+
+# Deploy function
+gcloud functions deploy beehive-processor \
+  --gen2 \
+  --region=$REGION \
+  --runtime=python39 \
+  --source=cloud_function \
+  --entry-point=process_audio \
+  --trigger-event=google.storage.object.finalize \
+  --trigger-resource=$BUCKET_NAME \
+  --service-account=${SERVICE_ACCOUNT}@${PROJECT_ID}.iam.gserviceaccount.com
+```
+
+#### 4. Deploy Dashboard to Cloud Run
+
+```bash
+# Build container
+gcloud builds submit --tag gcr.io/$PROJECT_ID/beehive-dashboard
+
+# Deploy to Cloud Run
 gcloud run deploy beehive-dashboard \
-    --source . \
-    --platform managed
+  --image=gcr.io/$PROJECT_ID/beehive-dashboard \
+  --platform=managed \
+  --region=$REGION \
+  --allow-unauthenticated
 ```
 
-## Development
+## 🐳 Docker Images
 
-- Run tests: `pytest`
-- Format code: `black .`
-- Lint code: `flake8`
+The project includes Docker configurations for all components:
 
+### Dashboard Image
 
-## 🚢 Deployment
+```dockerfile
+FROM python:3.9-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY src/ /app/src/
+COPY scripts/ /app/scripts/
+RUN mkdir -p /app/models /app/data /app/outputs
+EXPOSE 8080
+ENTRYPOINT ["streamlit", "run", "src/dashboard/app.py", "--server.port=8080", "--server.address=0.0.0.0"]
+```
 
-BuzzHive is designed to be deployed on Google Cloud Platform:
+### Cloud Function Image
+
+```dockerfile
+FROM python:3.9-slim
+WORKDIR /app
+COPY cloud_function/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY models/ /app/models/
+COPY cloud_function/ /app/
+ENV PORT=8080
+ENV FUNCTION_TARGET=process_audio
+CMD ["functions-framework", "--target", "${FUNCTION_TARGET}", "--port", "${PORT}"]
+```
+
+## 🧩 Project Structure
+
+```
+├── data/                # Raw sensor data
+├── config/              # Configuration files
+├── docker/              # Docker configuration files
+│   ├── Dockerfile.dashboard
+│   └── Dockerfile.function
+├── models/              # Trained ML models
+├── outputs/             # Generated plots and visualizations
+├── processed_data/      # Preprocessed datasets
+├── scripts/             # Utility scripts
+│   ├── explore_data.py
+│   ├── simulate_iot_uploads.py
+│   └── train_basic_model.py
+├── simulation_output/   # Simulated IoT device data
+├── src/                 # Source code
+│   ├── cloud/           # Cloud function code
+│   ├── dashboard/       # Streamlit dashboard
+│   └── data/            # Data processing modules
+├── tests/               # Test files
+├── cloud_function/      # Deployed cloud function code
+├── docker-compose.yml   # Docker Compose configuration
+├── Dockerfile           # Main Dockerfile
+├── deploy_cloud.sh      # GCP deployment script
+├── deploy.sh            # Deployment helper script
+├── install_dashboard_deps.sh # Dashboard dependency installer
+├── test_cloud_deploy.sh # Cloud deployment test script
+├── test_docker.sh       # Docker test script
+├── run_dashboard.sh     # Dashboard launcher script
+├── requirements.txt     # Python dependencies
+└── run_pipeline.sh      # Main pipeline script
+```
+
+## 🧪 Development
+
+### Running Tests
 
 ```bash
-# Deploy the backend services
-./deploy.sh
+pytest
 ```
 
-This script:
-1. Creates a Google Cloud Storage bucket
-2. Deploys the processing function
-3. Sets up Twilio for alerts
-4. Builds and pushes the dashboard Docker image
-5. Deploys the dashboard to Cloud Run
+### Local Development with Cloud Services
 
-## 👨‍💻 Contributing
+For local development against cloud services:
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+1. Set up GCP credentials:
+   ```bash
+   gcloud auth application-default login
+   ```
+
+2. Run the pipeline in cloud mode:
+   ```bash
+   ./run_pipeline.sh --cloud
+   ```
+
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch: `git checkout -b feature-name`
+3. Commit your changes: `git commit -am 'Add feature'`
+4. Push to the branch: `git push origin feature-name`
+5. Submit a pull request
 
-## 📝 License
+## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 👥 Team
+## 🔍 Additional Information
 
-- Michael - Backend development, Cloud infrastructure
-- Saif - Cloud deployment, Backend configuration
-- Allen - Frontend Dockerization, Dashboard deployment
+### Pipeline Components
 
-## 🙏 Acknowledgements
+#### 1. Data Processing
+Analyzes sensor data and annotations, generating visualizations to understand the acoustic patterns of beehives.
 
-- [MSPB dataset](https://www.kaggle.com/datasets/annajyang/beehive-sounds) - Longitudinal Multi-Sensor dataset with Phenotypic trait measurements from honey Bees
-- Google Cloud Platform for providing cloud infrastructure
-- Twilio for messaging services
+#### 2. Model Training
+Trains a Random Forest classifier to identify bee behaviors.
+
+#### 3. Cloud Deployment
+- **Storage**: Cloud Storage for raw audio files
+- **Processing**: Cloud Functions for audio analysis
+- **Database**: Firestore for processed results
+- **Dashboard**: Cloud Run for interactive web UI
+- **Notifications**: Pub/Sub for alerting
+
+#### 4. Dashboard
+A Streamlit-based dashboard deployed to Cloud Run for:
+- Visualizing real-time bee behavior
+- Tracking behavior changes over time
+- Alerting on abnormal behavior
+
+### Dashboard Modes
+
+The dashboard supports two operational modes:
+- **Demo Mode**: Uses simulated data (default for local running)
+- **Cloud Mode**: Connects to Firestore to display real data from IoT devices
+
+### Handling Large Data Files
+
+This project uses the MSPB (Multi-Sensor dataset with Phenotypic trait measurements from Bees) dataset. The data files are large (~200MB each) and not included in the Git repository. The project expects the following files in the `data/` directory:
+
+- `D1_sensor_data.csv`: Sensor data from device 1
+- `D1_ant.xlsx`: Annotations for device 1
+- `D2_sensor_data.csv`: Sensor data from device 2
+- `D2_ant.xlsx`: Annotations for device 2
+
+Since the data files are too large for Git, you can:
+
+1. **Option 1**: Download the files separately and place them in the `data/` directory
+2. **Option 2**: Use Git LFS (Large File Storage) if you need to store them in your repository
+3. **Option 3**: Store them in a GCS bucket and download them during setup
+
+### Docker Issues
+
+If you encounter Docker-related issues:
+```bash
+# Restart Docker daemon
+docker system prune -a
+docker-compose down
+docker-compose up --build
+```
+
+### GCP Deployment Issues
+
+If deployment to GCP fails:
+```bash
+# Check service account permissions
+gcloud projects get-iam-policy $PROJECT_ID
+
+# Verify APIs are enabled
+gcloud services list --enabled
+
+# Check deployment logs
+gcloud functions logs read beehive-processor
+gcloud run services logs read beehive-dashboard
+```
 
 ---
 

@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # Streamlit Dashboard
+  dashboard:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dashboard
+    ports:
+      - "8501:8080"
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./outputs:/app/outputs
+      - ./simulation_output:/app/simulation_output
+    environment:
+      - STREAMLIT_SERVER_PORT=8080
+      - STREAMLIT_SERVER_ADDRESS=0.0.0.0
+      - DEMO_MODE=true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  simulator:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.simulator
+    volumes:
+      - ./simulation_output:/app/simulation_output
+    depends_on:
+      - dashboard
+    command: python scripts/simulate_iot_uploads.py --interval 5 --samples 50
+    restart: "no"
+
+  # Uncomment this section for local development with cloud emulators
+  # firestore:
+  #   image: mtlynch/firestore-emulator:latest
+  #   ports:
+  #     - "8200:8080"
+  #   environment:
+  #     - FIRESTORE_PROJECT_ID=beehive-demo-local
+  #   volumes:
+  #     - firestore_data:/opt/firebase/.data
+
+  # cloud-function:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/Dockerfile.function
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - ./models:/app/models
+  #     - ./cloud_function:/app/function
+  #   environment:
+  #     - FUNCTION_TARGET=process_audio
+  #     - PORT=8080
+  #     - FIRESTORE_EMULATOR_HOST=firestore:8080
+  #     - GCP_PROJECT=beehive-demo-local
+  #   depends_on:
+  #     - firestore
+
+# Volumes for persistence
+volumes:
+  firestore_data:
+
+networks:
+  default:
+    name: beehive-network 
