@@ -12,8 +12,8 @@
   <a href="#google-cloud-platform-deployment"><img src="https://img.shields.io/badge/Cloud-GCP-blue.svg" alt="GCP"></a>
 </p>
 
-> A cloud-based IoT system for monitoring beehive health using audio analysis and machine learning.\n
-> Binghamton University CS552 Cloud Computing Spring 2025\n
+> A cloud-based IoT system for monitoring beehive health using audio analysis and machine learning./n
+> Binghamton University CS552 Cloud Computing Spring 2025/n
 > Michael Bronikowski, Allen Domingo, and Saif Ali
 
 
